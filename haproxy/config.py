@@ -122,7 +122,7 @@ HAPROXY_GROUP = os.getenv("HAPROXY_GROUP", "haproxy")
 RELOAD_TIMEOUT = os.getenv("RELOAD_TIMEOUT", "0")
 
 # global
-RUNNING_MODE = None
+RUNNING_MODE = os.getenv("RUNNING_MODE_OVERRIDE", None)
 
 # const
 CERT_DIR = "/certs/"
