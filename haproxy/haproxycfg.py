@@ -108,10 +108,16 @@ class Haproxy(object):
         try:
             try:
                 docker = docker_client()
+                swarmMaster = docker_client()
             except:
                 docker = docker_client(os.environ)
+                swarmMaster = docker_client(os.environ)
+
+            if config.SWARM_MASTER_ADDRESS:
+                swarmMaster = docker_client(os.environ, host=config.SWARM_MASTER_ADDRESS)
 
             docker.ping()
+            swarmMaster.ping()
 
         except Exception as e:
             logger.info("Docker API error, regressing to legacy links mode: %s" % e)
@@ -119,7 +125,7 @@ class Haproxy(object):
         haproxy_container_id = os.environ.get("HOSTNAME", "")
         Haproxy.cls_service_id, Haproxy.cls_nets = SwarmModeLinkHelper.get_swarm_mode_haproxy_id_nets(docker,
                                                                                                       haproxy_container_id)
-        links, Haproxy.cls_linked_tasks = SwarmModeLinkHelper.get_swarm_mode_links(docker, Haproxy.cls_service_id,
+        links, Haproxy.cls_linked_tasks = SwarmModeLinkHelper.get_swarm_mode_links(swarmMaster, Haproxy.cls_service_id,
                                                                                    Haproxy.cls_nets)
         logger.info("Linked service: %s", ", ".join(SwarmModeLinkHelper.get_service_links_str(links)))
         logger.info("Linked container: %s", ", ".join(SwarmModeLinkHelper.get_container_links_str(links)))

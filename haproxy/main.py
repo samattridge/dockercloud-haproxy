@@ -83,14 +83,6 @@ def is_process_running(p):
 def check_running_mode(container_uri, service_uri, api_auth):
     mode, msg = None, ""
     
-    # If config.RUNNING_MODE has been set already then it was done using the RUNNING_MODE_OVERRIDE environment variable
-    if config.RUNNING_MODE and (config.RUNNING_MODE == RunningMode.LegacyMode or config.RUNNING_MODE == RunningMode.SwarmMode or config.RUNNING_MODE == RunningMode.ComposeMode or config.RUNNING_MODE == RunningMode.CloudMode):
-        msg = "Haproxy running mode has been overridden."
-        mode = config.RUNNING_MODE
-    
-        logger.info(msg)
-        return mode
-    
     if container_uri and service_uri and api_auth:
         if container_uri and service_uri:
             if api_auth:

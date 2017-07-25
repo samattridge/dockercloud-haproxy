@@ -1,13 +1,13 @@
 import logging
 import os
 import re
+import enum
 
 logger = logging.getLogger("haproxy")
 
 
 class RunningMode():
     LegacyMode, ComposeMode, SwarmMode, CloudMode = range(4)
-
 
 def parse_extra_bind_settings(extra_bind_settings):
     bind_dict = {}
@@ -120,9 +120,10 @@ SWARM_MODE_POLLING_INTERVAL = int(os.getenv("SWARM_MODE_POLLING_INTERVAL", 5))
 HAPROXY_USER = os.getenv("HAPROXY_USER", "haproxy")
 HAPROXY_GROUP = os.getenv("HAPROXY_GROUP", "haproxy")
 RELOAD_TIMEOUT = os.getenv("RELOAD_TIMEOUT", "0")
+SWARM_MASTER_ADDRESS = os.getenv("SWARM_MASTER_ADDRESS")
 
 # global
-RUNNING_MODE = os.getenv("RUNNING_MODE_OVERRIDE", None)
+RUNNING_MODE = None
 
 # const
 CERT_DIR = "/certs/"

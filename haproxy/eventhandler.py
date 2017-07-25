@@ -103,12 +103,15 @@ def polling_service_status_swarm_mode():
         time.sleep(config.SWARM_MODE_POLLING_INTERVAL)
         try:
             try:
-                docker = docker_client()
+                swarmMaster = docker_client()
             except:
-                docker = docker_client(os.environ)
+                swarmMaster = docker_client(os.environ)
 
-            services = docker.services()
-            tasks = docker.tasks(filters={"desired-state": "running"})
+            if config.SWARM_MASTER_ADDRESS:
+                swarmMaster = docker_client(os.environ, host=config.SWARM_MASTER_ADDRESS)
+
+            services = swarmMaster.services()
+            tasks = swarmMaster.tasks(filters={"desired-state": "running"})
             _, linked_tasks = SwarmModeLinkHelper.get_task_links(tasks, services, Haproxy.cls_service_id,
                                                                  Haproxy.cls_nets)
             if cmp(Haproxy.cls_linked_tasks, linked_tasks) != 0:
