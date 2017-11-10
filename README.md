@@ -231,7 +231,7 @@ Settings in this part is immutable, you have to redeploy HAProxy service to make
 |SSL_BIND_OPTIONS|no-sslv3|explicitly set which SSL bind options will be used for the SSL server. This sets the HAProxy `ssl-default-bind-options` configuration setting. The default will allow only TLSv1.0+ to be used on the SSL server.|
 |STATS_AUTH|stats:stats|username and password required to access the Haproxy stats.|
 |STATS_PORT|1936|port for the HAProxy stats section. If this port is published, stats can be accessed at `http://<host-ip>:<STATS_PORT>/`
-|SWARM_MASTER_ADDRESS|If set, allows HAProxy to run on worker nodes. Use this in conjunction with mounting `/var/run/docker.sock` to make this work.
+|SWARM_MASTER_ADDRESS| |If set, allows HAProxy to run on worker nodes. Use this in conjunction with mounting `/var/run/docker.sock` to make this work.
 |TIMEOUT|connect 5000, client 50000, server 50000|comma-separated list of HAProxy `timeout` entries to the `default` section.|
 |NBPROC|1|sets the `nbproc` entry to the `global` section. By default, only one process is created, which is the recommended mode of operation.|
 |HAPROXY_USER|haproxy|sets the user of the UNIX sockets to the designated system user name|
